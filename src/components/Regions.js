@@ -6,7 +6,7 @@ const Regions = (props) => {
 
     }
   return (
-    <option className="dropdown-item" value = {props.text} onClick={handleClick}>{props.text} </option>
+    <button className="dropdown-item" onClick={handleClick}>{props.text} </button>
   )
 }
 
