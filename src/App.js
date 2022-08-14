@@ -1,52 +1,26 @@
 import './App.css';
-import CountryCard from './components/CountryCard';
+import CountryPage from './components/CountryPage';
 import Heading from './components/Heading';
-import RegionFilter from './components/RegionFilter';
-import SearchInput from './components/SearchInput';
-import { useState , useEffect } from 'react';
+import HomePage from './components/HomePage';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState } from 'react';
 
 function App() {
-    const [countries, setCountries] = useState(null);
-    const [countriesToSearch, setCountriesToSearch] = useState(null)
-    const [region, setRegion] = useState(null);
-
-    useEffect (()=>{
-      fetch(`https://restcountries.com/v3.1/${region ? 'region/' + region : 'all' }`)
-      .then((res)=> res.json())
-      .then((data) => {
-        setCountries(data)
-        setCountriesToSearch(data)
-      })
-    }, [region])
-    // search functionality
-    function onSearch(countryName){
-      setCountries(countriesToSearch.filter((country)=>{return country.name.common.toLowerCase().includes(countryName.toLowerCase())}));
-    }
-
-    //filter functionality
-    function onFilter(filteredRegion){
-      setRegion(filteredRegion !== 'All' && filteredRegion);
-    }
-
-    //Display country functionality
-
-
+  const [displayCountry, setDisplayCountry] = useState('')
+  function showCountry(countryName){
+    setDisplayCountry(countryName);
+  }
   return (
     <div className="App">
-
       <Heading/>
-      <div className='container contents'>
-        <div className = "d-flex d-flex justify-content-between mb-5" >
-          <SearchInput onSearch = {onSearch}/>
-          <RegionFilter onFilter = {onFilter}/>
-        </div>
+      <Router>
+        <Routes>
+          <Route path = '/' element = {<HomePage onShowCountry={showCountry}/>}/>
+          <Route path = {'/'+displayCountry} element = {<CountryPage name = {displayCountry}/>}/>
+        </Routes>
+        
+      </Router>
       
-        <div className="d-flex flex-wrap justify-content-between">
-          {countries && countries.map((country)=>(
-          <CountryCard country = {country} key = {country.name.common}/>
-        ))}
-        </div>
-      </div>
     </div>
   );
 }
