@@ -4,20 +4,24 @@ import { Link } from 'react-router-dom'
 
 const CountryPage = (props) => {
   const [country, setCountry] = useState(null)
+  const [neighborCode, setNeighborCode] = useState('')
   useEffect(()=>{
-    fetch(`https://restcountries.com/v2/name/${props.name}`)
+    fetch(`https://restcountries.com/v2/alpha/${ neighborCode?neighborCode:props.name}`)
     .then((res)=> res.json())
     .then((data)=> {
       setCountry(data)
+      console.log(data);
     })
-  }, [props.name])
+  },[neighborCode])
    
+  function showBorderingCountry(code){
+    setNeighborCode(code)
+  }
   return (
     <div>
-      {country ? country.map((country)=>(
-        
       <div className="container" >
         <Link to = '/'><button>Back</button></Link>
+      {country ? 
         <div className="row align-items-center my-5">
           <div className="col-lg-7">
             <img
@@ -39,15 +43,14 @@ const CountryPage = (props) => {
                     <p className="card-text">Languages: {country.languages.map((language,index)=>(<small className="text-muted" key={index}>{Object.values(language)[2]},</small>))}</p>
                 </div>
                 <div>
-                    {country.borders && <h5>Border Countries: {country.borders.map((country, index)=>(<BorderCountries key = {index} countryCode = {country}/>))}</h5>}
+                    {country.borders && <h5>Border Countries: {country.borders.map((country, index)=>(<BorderCountries key = {index} countryCode = {country} onShowNeighboringCountry = {showBorderingCountry}/>))}</h5>}
                 </div>
           </div>
       </div>
-    </div>
-      ))
       
-      : console.log('loading')}
+      : <p>loading...</p>}
     
+    </div>
     </div>
 
     

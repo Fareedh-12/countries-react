@@ -1,8 +1,11 @@
 import React from 'react'
 
 const BorderCountries = (props) => {
+  function handleShowNeighboringCountry(){
+    props.onShowNeighboringCountry(props.countryCode);
+  }
   return (
-    <button><small className='text-muted'>{props.countryCode}</small></button>
+    <button onClick = {handleShowNeighboringCountry}><small className='text-muted'>{props.countryCode}</small></button>
   )
 }
 

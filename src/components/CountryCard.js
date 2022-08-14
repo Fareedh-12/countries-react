@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 
 const CountryCard = (props) => {
   function handleShowCountry(){
-    props.onShowCountry(props.country.name.common);
+    props.onShowCountry(props.country.cca3);
   }
   return (
       <div className="card h-100 mb-5" style={{width: 25+'rem',}} onClick = {handleShowCountry}>
-        <Link to = {'/'+props.country.name.common} style={{marginBottom: 20+'px'}}><img src={props.country.flags.png} className="card-img-top h-5" alt={props.country.name.common + " flag."} style = {{height: 150+'px'}}/></Link>
+        <Link to = {'/'+props.country.cca3} style={{marginBottom: 20+'px'}}><img src={props.country.flags.png} className="card-img-top h-5" alt={props.country.name.common + " flag."} style = {{height: 150+'px'}}/></Link>
         <div className="card-body">
             <h5 className="card-title">{props.country.name.common}</h5>
         </div>
